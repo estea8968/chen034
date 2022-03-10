@@ -47,6 +47,7 @@ async function getValueInput(){
     show_all_data_id.style.display = 'none';
     //console.log('title',json_data[0][2]);
     //找本人
+    var show_data ;
     search_result = json_search(json_data,"名",user_name);
     if(search_result.length==1){
             //console.log(search_result.族籍號);
@@ -57,7 +58,7 @@ async function getValueInput(){
             var people_number;
             var a_house;
             var show_class =`class="btn_fa"`;
-            var show_data =user_name+'族籍：';
+            show_data =user_name+'族籍：';
             for (i = 1; i <= search_result0.族籍號.length; i++) {    
                 //a_people = await build_show_people(search_result.族籍號,i);
                 people_number = search_result0.族籍號.substr(0,i);
@@ -78,10 +79,12 @@ async function getValueInput(){
                     show_data = show_data + `<div><button class="btn_sun" onclick="search_byid('${sun[x].族籍號}')">${a_house}/${sh_ary[i-1]}/${sun[x].名}/${sun[x].族籍號}<br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
                 }
             }
-    }else{
+    }else if(search_result.length==0){
+        show_data ='沒有找到資料'+user_name;
+    }else {
         var a_people = null;
         var i;
-        var show_data ='搜尋到多筆'+user_name;
+        show_data ='搜尋到多筆'+user_name;
         search_result.forEach(function(value) {
             a_house =chk_house(value.族籍號);
             show_data = show_data + `<div><button class="btn_seach" onclick="search_byid('${value.族籍號}')">${a_house}/${value.族籍號}/${value.名}<br>配偶:${value.配偶}/父親:${value.父親}</button></div><p></p>`;
