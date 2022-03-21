@@ -26,6 +26,10 @@
     text-align: center;
     background-color:#ee99ff
 }
+.err{
+    font-size: 3vw;
+    color: red;
+}
 p{
     font-size: 3vw
 }

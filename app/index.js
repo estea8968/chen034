@@ -80,7 +80,7 @@ async function getValueInput(){
                 }
             }
     }else if(search_result.length==0){
-        show_data ='沒有找到資料'+user_name;
+        show_data =`<p class="err" > 沒有找到${user_name}資料</p>`;
     }else {
         var a_people = null;
         var i;
