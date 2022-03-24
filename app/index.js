@@ -178,7 +178,7 @@ function get_all_data(){
     $.get('https://script.google.com/macros/s/AKfycbzBZXaA2Gf9-6gW0Whm-zbczf0bs6dIAk0FMyCpi7xItwMVyRRdD3koKRtZmoSeNg_MHQ/exec',a, function(data){
       var d = data.split(',');
       var arr = [];
-      $show.append('<table>'); 
+      $show.append('族譜異動調整請私訊，lineID:estea8968<br><table>'); 
       for(var i=0; i<(a.endRow-a.row+1); i++){
       //  for(var i=0; i<d.length; i++){  
         arr[i] = d.splice(0, (a.endCol-a.col+1)); 
