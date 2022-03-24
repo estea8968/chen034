@@ -1,5 +1,5 @@
 let user_name ='';
-let endrow =2900;
+let endrow =3000;
 let all_data = null;
 let json_data = null;
 let search_result = null;
@@ -67,7 +67,7 @@ async function getValueInput(){
                 if(i==search_result0.族籍號.length){
                     show_class =`class="btn_self"`;
                 }
-                show_data = show_data + `<div><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/${a_people[0].名}/${a_people[0].族籍號}<br>/配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;                
+                show_data = show_data + `<div class='col-md-12'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/${a_people[0].名}/${a_people[0].族籍號}<br>/配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;                
                 console.log(a_people);
             }
             //search sun
@@ -76,7 +76,7 @@ async function getValueInput(){
             if(sun.length>0){
                 for(var x=0;x<sun.length;x++){
                     a_house =chk_house(sun[x].族籍號);
-                    show_data = show_data + `<div><button class="btn_sun" onclick="search_byid('${sun[x].族籍號}')">${a_house}/${sh_ary[i-1]}/${sun[x].名}/${sun[x].族籍號}<br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
+                    show_data = show_data + `<div class='col-md-12'><button class="btn btn-info" onclick="search_byid('${sun[x].族籍號}')">${a_house}/${sh_ary[i-1]}/${sun[x].名}/${sun[x].族籍號}<br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
                 }
             }
     }else if(search_result.length==0){
@@ -84,10 +84,10 @@ async function getValueInput(){
     }else {
         var a_people = null;
         var i;
-        show_data ='搜尋到多筆'+user_name;
+        show_data ='搜尋到多筆:'+user_name;
         search_result.forEach(function(value) {
             a_house =chk_house(value.族籍號);
-            show_data = show_data + `<div><button class="btn_seach" onclick="search_byid('${value.族籍號}')">${a_house}/${value.族籍號}/${value.名}<br>配偶:${value.配偶}/父親:${value.父親}</button></div><p></p>`;
+            show_data = show_data + `<div class='col-md-12'><button class="btn_seach" onclick="search_byid('${value.族籍號}')">${a_house}/${value.族籍號}/${value.名}<br>配偶:${value.配偶}/父親:${value.父親}</button></div>`;
         });
     }
     document.getElementById("show_name").innerHTML = show_data;
@@ -149,7 +149,7 @@ async function search_byid(id){
                 if(i == id.length){
                     show_class =`class="btn_self"`;
                 }
-                show_data = show_data + `<div><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/${a_people[0].族籍號}/${a_people[0].名}<br>配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;
+                show_data = show_data + `<div class='col-md-12'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/${a_people[0].族籍號}/${a_people[0].名}<br>配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;
                 console.log(a_people);
             }
             //search sun
@@ -157,7 +157,7 @@ async function search_byid(id){
             //console.log(sun);
             if(sun.length>0){
                 for(var x=0;x<sun.length;x++){
-                    show_data = show_data+`<div><button class="btn_sun" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/${sun[x].名}/${sun[x].族籍號}<br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
+                    show_data = show_data+`<div class='col-md-12'><button class="btn_sun" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/${sun[x].名}/${sun[x].族籍號}<br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
                 }
             }
             document.getElementById("show_name").innerHTML = show_data;
