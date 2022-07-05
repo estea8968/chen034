@@ -5,12 +5,19 @@ let json_data = null;
 let search_result = null;
 let now_people = null;
 let sun ;
+let show_money = '';
 //show_people [th15_1[太],th16_2[祖],th17_3[志],th18_4[存],th19_5[武],th20_6[達],th21_7[國],th22_8[朝],th23_9[宗],th24_10[崇]]
 const sh_ary = ['15世','16世','17世','18世','19世','20世','21世','22世','23世','24世','25世']
 let show_people = {};
 
 const url ='https://docs.google.com/spreadsheets/d/1hre_XZDiFvVskOC-_NT8s0gNiTcqpfd1hkOZRHr5Wuo/edit#gid=1817346169';
 const sheet_tag ='族籍';
+//var money_url='google sheet share url';
+var money_url = atob('aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMUdPNUgtRFQzRjlKQ1VDX0JxaUozZnFNemw5X3VveTQ1RVgtYnljRzlwX2cvZWRpdD91c3A9c2hhcmluZw==');
+const money_sheet_tag ='丁錢';
+
+let y110_ary =[];
+let y111_ary =[];
 get_all_data();
 let show_name_id = document.getElementById('show_name');
 let show_all_data_id = document.getElementById('show_all_data');
@@ -59,6 +66,8 @@ async function getValueInput(){
             var a_house;
             var show_class =`class="btn_fa"`;
             show_data =user_name+'族籍：';
+            console.log('id=',search_result0.族籍號)
+            //chk_money(y110_ary,search_result0.族籍號);
             for (i = 1; i <= search_result0.族籍號.length; i++) {    
                 //a_people = await build_show_people(search_result.族籍號,i);
                 people_number = search_result0.族籍號.substr(0,i);
@@ -67,7 +76,8 @@ async function getValueInput(){
                 if(i==search_result0.族籍號.length){
                     show_class =`class="btn_self"`;
                 }
-                show_data = show_data + `<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/<b>${a_people[0].名}</b>/${a_people[0].族籍號}<br>/配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;                
+                chk_money(people_number);
+                show_data = show_data + `<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/<font color='red'>${show_money}</font><b>${a_people[0].名}</b>/${a_people[0].族籍號}<br>/配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;                
                 console.log(a_people);
             }
             //search sun
@@ -76,7 +86,8 @@ async function getValueInput(){
             if(sun.length>0){
                 for(var x=0;x<sun.length;x++){
                     a_house =chk_house(sun[x].族籍號);
-                    show_data = show_data + `<div class='container'><button class="btn btn-info" onclick="search_byid('${sun[x].族籍號}')">${a_house}/${sh_ary[i-1]}/<b>${sun[x].名}</b>/${sun[x].族籍號}<br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
+                    chk_money(sun[x].族籍號);
+                    show_data = show_data+`<div class='container'><button class="btn btn-info" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/<font color='red'>${show_money}</font><b>${sun[x].名}</b>/${sun[x].族籍號}<br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
                 }
             }
     }else if(search_result.length==0){
@@ -95,6 +106,26 @@ async function getValueInput(){
     show_all_data_id.style.display = 'none';
      
 }
+
+function chk_money(people_number){
+    //y110
+    var pos = 0;
+    show_money = '';
+    pos = y110_ary.indexOf(people_number);
+    if(pos>0){
+        show_money = '$110';
+    }
+    //y111
+    pos = 0;
+    if(y111_ary.length>0){
+        pos = y111_ary.indexOf(people_number);
+        if(pos>0){
+            show_money = show_money+'$111';
+        }
+    }    
+}
+
+
 
 function chk_house(id){
     const str1 = id.substr(0,1);
@@ -146,6 +177,7 @@ async function search_byid(id){
         var a_house;
         var show_class = `class="btn_fa"`;
         var show_data ='族籍序：';
+        
             for (i = 1; i <= id.length; i++) {    
                 //a_people = await build_show_people(search_result.族籍號,i);
                 var people_number = id.substr(0,i);
@@ -154,7 +186,9 @@ async function search_byid(id){
                 if(i == id.length){
                     show_class =`class="btn_self"`;
                 }
-                show_data = show_data+`<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/${a_people[0].族籍號}/<b>${a_people[0].名}</b><br>配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;
+                //chk pay money
+                chk_money(people_number);
+                show_data = show_data+`<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/${a_people[0].族籍號}/<font color='red'>${show_money}</font><b>${a_people[0].名}</b><br>配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;
                 console.log(a_people);
             }
             //search sun
@@ -162,7 +196,8 @@ async function search_byid(id){
             //console.log(sun);
             if(sun.length>0){
                 for(var x=0;x<sun.length;x++){
-                    show_data = show_data+`<div class='container'><button class="btn btn-info" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/<b>${sun[x].名}</b>/${sun[x].族籍號}<br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
+                    chk_money(sun[x].族籍號);
+                    show_data = show_data+`<div class='container'><button class="btn btn-info" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/<font color='red'>${show_money}</font><b>${sun[x].名}</b>/${sun[x].族籍號}<br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
                 }
             }
             document.getElementById("show_name").innerHTML = show_data;
@@ -200,6 +235,45 @@ function get_all_data(){
       all_data = arr; 
       json_data = datatoJSON(all_data) ;
     });
+    //money data
+    var b = {
+        sheetUrl : money_url,
+        sheetTag : money_sheet_tag,
+        row: 2,
+        col: 1,
+        endRow : endrow,
+        endCol : 2
+    };
+    $.get('https://script.google.com/macros/s/AKfycbzBZXaA2Gf9-6gW0Whm-zbczf0bs6dIAk0FMyCpi7xItwMVyRRdD3koKRtZmoSeNg_MHQ/exec',b, function(data){
+      var get_data =  data.split(',');
+      //y110_ary =[];
+      //y111_ary =[];
+      for(i=0;i<get_data.length;i++){
+        y110_ary.push(get_data[i]);
+        i++;
+        y111_ary.push(get_data[i]);
+      }
+      //y110_ary= data.split(',');
+      //y110_ary.shift();
+      console.log('y110=',y110_ary);
+      console.log('y111=',y111_ary);
+      //json_data = datatoJSON(all_data) ;
+    });
+
+    /*var b = {
+        sheetUrl : money_url,
+        sheetTag : money_sheet_tag,
+        row: 1,
+        col: 2,
+        endRow : endrow,
+        endCol : 1
+    };
+    $.get('https://script.google.com/macros/s/AKfycbzBZXaA2Gf9-6gW0Whm-zbczf0bs6dIAk0FMyCpi7xItwMVyRRdD3koKRtZmoSeNg_MHQ/exec',b, function(data){
+      y111_ary= data.split(',');
+      y111_ary.shift();
+      console.log(y111_ary);
+      //json_data = datatoJSON(all_data) ;
+    });*/
  
 }
 
