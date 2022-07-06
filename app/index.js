@@ -13,7 +13,8 @@ let show_people = {};
 const url ='https://docs.google.com/spreadsheets/d/1hre_XZDiFvVskOC-_NT8s0gNiTcqpfd1hkOZRHr5Wuo/edit#gid=1817346169';
 const sheet_tag ='族籍';
 //var money_url='google sheet share url';
-var money_url = atob('aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMUdPNUgtRFQzRjlKQ1VDX0JxaUozZnFNemw5X3VveTQ1RVgtYnljRzlwX2cvZWRpdD91c3A9c2hhcmluZw==');
+const money110_url = atob('aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMUdPNUgtRFQzRjlKQ1VDX0JxaUozZnFNemw5X3VveTQ1RVgtYnljRzlwX2cvZWRpdD91c3A9c2hhcmluZw==');
+const money111_url = atob('aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMS1EQ1B2Q2ZrQ2I0ZkF5d3NjVFZ3QnY5MmNpTkpsSFUySmNDMVhwNklMa0EvZWRpdD91c3A9c2hhcmluZw==');
 const money_sheet_tag ='丁錢';
 
 let y110_ary =[];
@@ -235,45 +236,46 @@ function get_all_data(){
       all_data = arr; 
       json_data = datatoJSON(all_data) ;
     });
-    //money data
+    //money1110 data
     var b = {
-        sheetUrl : money_url,
+        sheetUrl : money110_url,
         sheetTag : money_sheet_tag,
         row: 2,
         col: 1,
         endRow : endrow,
-        endCol : 2
+        endCol : 1
     };
     $.get('https://script.google.com/macros/s/AKfycbzBZXaA2Gf9-6gW0Whm-zbczf0bs6dIAk0FMyCpi7xItwMVyRRdD3koKRtZmoSeNg_MHQ/exec',b, function(data){
-      var get_data =  data.split(',');
+      y110_ary = data.split(',');
+      //y110_ary.shift();
+      //var get_data =  data.split(',');
       //y110_ary =[];
       //y111_ary =[];
-      for(i=0;i<get_data.length;i++){
+      /*for(i=0;i<get_data.length;i++){
         y110_ary.push(get_data[i]);
         i++;
         y111_ary.push(get_data[i]);
-      }
+      }*/
       //y110_ary= data.split(',');
       //y110_ary.shift();
       console.log('y110=',y110_ary);
-      console.log('y111=',y111_ary);
       //json_data = datatoJSON(all_data) ;
     });
-
-    /*var b = {
-        sheetUrl : money_url,
+    //money111 data
+    var b = {
+        sheetUrl : money111_url,
         sheetTag : money_sheet_tag,
-        row: 1,
-        col: 2,
+        row: 2,
+        col: 1,
         endRow : endrow,
         endCol : 1
     };
     $.get('https://script.google.com/macros/s/AKfycbzBZXaA2Gf9-6gW0Whm-zbczf0bs6dIAk0FMyCpi7xItwMVyRRdD3koKRtZmoSeNg_MHQ/exec',b, function(data){
       y111_ary= data.split(',');
-      y111_ary.shift();
+      //y111_ary.shift();
       console.log(y111_ary);
       //json_data = datatoJSON(all_data) ;
-    });*/
+    });
  
 }
 
