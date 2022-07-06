@@ -110,17 +110,17 @@ async function getValueInput(){
 
 function chk_money(people_number){
     //y110
-    var pos = 0;
+    var pos = -1;
     show_money = '';
     pos = y110_ary.indexOf(people_number);
-    if(pos>0){
+    if(pos>-1){
         show_money = '$110';
     }
     //y111
     pos = 0;
     if(y111_ary.length>0){
         pos = y111_ary.indexOf(people_number);
-        if(pos>0){
+        if(pos>-1){
             show_money = show_money+'$111';
         }
     }    
@@ -212,7 +212,7 @@ function get_all_data(){
         sheetUrl : url,
         sheetTag : sheet_tag,
         row: 1,
-        col: 1,
+        col: 2,
         endRow : endrow,
         endCol : 6
     };
@@ -241,23 +241,12 @@ function get_all_data(){
         sheetUrl : money110_url,
         sheetTag : money_sheet_tag,
         row: 2,
-        col: 1,
+        col: 2,
         endRow : endrow,
-        endCol : 1
+        endCol : 2
     };
     $.get('https://script.google.com/macros/s/AKfycbzBZXaA2Gf9-6gW0Whm-zbczf0bs6dIAk0FMyCpi7xItwMVyRRdD3koKRtZmoSeNg_MHQ/exec',b, function(data){
       y110_ary = data.split(',');
-      //y110_ary.shift();
-      //var get_data =  data.split(',');
-      //y110_ary =[];
-      //y111_ary =[];
-      /*for(i=0;i<get_data.length;i++){
-        y110_ary.push(get_data[i]);
-        i++;
-        y111_ary.push(get_data[i]);
-      }*/
-      //y110_ary= data.split(',');
-      //y110_ary.shift();
       console.log('y110=',y110_ary);
       //json_data = datatoJSON(all_data) ;
     });
@@ -266,9 +255,9 @@ function get_all_data(){
         sheetUrl : money111_url,
         sheetTag : money_sheet_tag,
         row: 2,
-        col: 1,
+        col: 2,
         endRow : endrow,
-        endCol : 1
+        endCol : 2
     };
     $.get('https://script.google.com/macros/s/AKfycbzBZXaA2Gf9-6gW0Whm-zbczf0bs6dIAk0FMyCpi7xItwMVyRRdD3koKRtZmoSeNg_MHQ/exec',b, function(data){
       y111_ary= data.split(',');
