@@ -7,7 +7,12 @@ let now_people = null;
 let sun ;
 let show_money = '';
 //show_people [th15_1[太],th16_2[祖],th17_3[志],th18_4[存],th19_5[武],th20_6[達],th21_7[國],th22_8[朝],th23_9[宗],th24_10[崇]]
-const sh_ary = ['15世','16世','17世','18世','19世','20世','21世','22世','23世','24世','25世']
+let sh_ary = ['15太','16祖','17志','18存','19武','20達','21國','22朝','23宗','24崇','25仁'];
+//所有筆數
+let all_rec=0;
+//各世別人數陣列
+let sh_num_ary=[0,0,0,0,0,0,0,0,0,0,0];
+
 let show_people = {};
 
 const url ='https://docs.google.com/spreadsheets/d/1hre_XZDiFvVskOC-_NT8s0gNiTcqpfd1hkOZRHr5Wuo/edit#gid=1817346169';
@@ -78,7 +83,7 @@ async function getValueInput(){
                     show_class =`class="btn_self"`;
                 }
                 chk_money(people_number);
-                show_data = show_data + `<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/<font color='red'>${show_money}</font><b>${a_people[0].名}</b>/${a_people[0].族籍號}<br>/配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;                
+                show_data = show_data + `<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/<b>${a_people[0].名}</b>/${a_people[0].族籍號}/<font color='red'>${show_money}</font><br>/配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;                
                 console.log(a_people);
             }
             //search sun
@@ -88,7 +93,7 @@ async function getValueInput(){
                 for(var x=0;x<sun.length;x++){
                     a_house =chk_house(sun[x].族籍號);
                     chk_money(sun[x].族籍號);
-                    show_data = show_data+`<div class='container'><button class="btn btn-info" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/<font color='red'>${show_money}</font><b>${sun[x].名}</b>/${sun[x].族籍號}<br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
+                    show_data = show_data+`<div class='container'><button class="btn btn-info" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/<b>${sun[x].名}</b>/${sun[x].族籍號}/<font color='red'>${show_money}</font><br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
                 }
             }
     }else if(search_result.length==0){
@@ -114,14 +119,14 @@ function chk_money(people_number){
     show_money = '';
     pos = y110_ary.indexOf(people_number);
     if(pos>-1){
-        show_money = '$110';
+        show_money = '丁110';
     }
     //y111
     pos = 0;
     if(y111_ary.length>0){
         pos = y111_ary.indexOf(people_number);
         if(pos>-1){
-            show_money = show_money+'$111';
+            show_money = show_money+'丁111';
         }
     }    
 }
@@ -189,7 +194,7 @@ async function search_byid(id){
                 }
                 //chk pay money
                 chk_money(people_number);
-                show_data = show_data+`<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/${a_people[0].族籍號}/<font color='red'>${show_money}</font><b>${a_people[0].名}</b><br>配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;
+                show_data = show_data+`<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/${a_people[0].族籍號}/<b>${a_people[0].名}</b>/<font color='red'>${show_money}</font><br>配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;
                 console.log(a_people);
             }
             //search sun
@@ -198,7 +203,7 @@ async function search_byid(id){
             if(sun.length>0){
                 for(var x=0;x<sun.length;x++){
                     chk_money(sun[x].族籍號);
-                    show_data = show_data+`<div class='container'><button class="btn btn-info" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/<font color='red'>${show_money}</font><b>${sun[x].名}</b>/${sun[x].族籍號}<br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
+                    show_data = show_data+`<div class='container'><button class="btn btn-info" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/<b>${sun[x].名}</b>/${sun[x].族籍號}/<font color='red'>${show_money}</font><br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
                 }
             }
             document.getElementById("show_name").innerHTML = show_data;
@@ -218,21 +223,41 @@ function get_all_data(){
     };
     $.get('https://script.google.com/macros/s/AKfycbzBZXaA2Gf9-6gW0Whm-zbczf0bs6dIAk0FMyCpi7xItwMVyRRdD3koKRtZmoSeNg_MHQ/exec',a, function(data){
       var d = data.split(',');
+      all_rec = 0;
+      sh_num_ary=[0,0,0,0,0,0,0,0,0,0,0];
       var arr = [];
-      $show.append('族譜異動調整請私訊，lineID:estea8968<br><table>'); 
+      var show_append ='<table>';
+
+      //$show.append('族譜異動調整請私訊，lineID:estea8968<br><table>'); 
       for(var i=0; i<(a.endRow-a.row+1); i++){
       //  for(var i=0; i<d.length; i++){  
         arr[i] = d.splice(0, (a.endCol-a.col+1)); 
         //console.log(arr[i]);
-        var show_str ='<tr>';
+        //var show_str ='<tr>';
+        show_append = show_append+ '<tr>';
         for(var x=0;x<arr[i].length;x++){
-            show_str = show_str +'<td>'+arr[i][x]+'</td>';
+            //統計各世人數
+            if(x == 0){
+                //15=1
+                //console.log('aaa=',arr[i][0]);
+                all_rec++;
+                sh_num_ary[arr[i][0].length-1]++;
+            }
+            
+            show_append = show_append+ '<td>'+arr[i][x]+'</td>';
         }
-        show_str = show_str +'</tr>';
-        $show.append(show_str);
+        console.log(sh_num_ary);
+        show_append = show_append+'</tr>';
+        //$show.append(show_str);
         //$show.append(arr[i]+'<br/>');
       }
-      $show.append('</table>'); 
+      show_append = show_append+'</table>';
+      //$show.append('</table>'); 
+      var show_sh_num_ary='';
+      for (var i=0;i<sh_num_ary.length;i++){
+        show_sh_num_ary = show_sh_num_ary+sh_ary[i]+':'+sh_num_ary[i].toString()+'人/';         
+      }
+      $show.append('<p class="totadata" >共'+all_rec.toString()+'人/'+show_sh_num_ary+'</p>'+show_append);
       all_data = arr; 
       json_data = datatoJSON(all_data) ;
     });
