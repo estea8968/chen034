@@ -5,6 +5,9 @@ let json_data = null;
 let search_result = null;
 let now_people = null;
 let sun ;
+//男女
+let male=0;
+let female=0;
 let show_money = '';
 //show_people [th15_1[太],th16_2[祖],th17_3[志],th18_4[存],th19_5[武],th20_6[達],th21_7[國],th22_8[朝],th23_9[宗],th24_10[崇]]
 let sh_ary = ['15太','16祖','17志','18存','19武','20達','21國','22朝','23宗','24崇','25仁'];
@@ -226,14 +229,14 @@ function get_all_data(){
       all_rec = 0;
       sh_num_ary=[0,0,0,0,0,0,0,0,0,0,0];
       var arr = [];
+      //男女
+      male = 0;
+      female =0;
       var show_append ='<table>';
 
       //$show.append('族譜異動調整請私訊，lineID:estea8968<br><table>'); 
       for(var i=0; i<(a.endRow-a.row+1); i++){
-      //  for(var i=0; i<d.length; i++){  
         arr[i] = d.splice(0, (a.endCol-a.col+1)); 
-        //console.log(arr[i]);
-        //var show_str ='<tr>';
         show_append = show_append+ '<tr>';
         for(var x=0;x<arr[i].length;x++){
             //統計各世人數
@@ -243,21 +246,25 @@ function get_all_data(){
                 all_rec++;
                 sh_num_ary[arr[i][0].length-1]++;
             }
-            
+            //統計男女
+            if(x==3){
+                if(arr[i][3]=='女'){
+                    female++;
+                }else{
+                    male++;
+                }
+            }
             show_append = show_append+ '<td>'+arr[i][x]+'</td>';
         }
         console.log(sh_num_ary);
         show_append = show_append+'</tr>';
-        //$show.append(show_str);
-        //$show.append(arr[i]+'<br/>');
       }
       show_append = show_append+'</table>';
-      //$show.append('</table>'); 
       var show_sh_num_ary='';
       for (var i=0;i<sh_num_ary.length;i++){
-        show_sh_num_ary = show_sh_num_ary+sh_ary[i]+':'+sh_num_ary[i].toString()+'人/';         
+        show_sh_num_ary = show_sh_num_ary+sh_ary[i]+':'+sh_num_ary[i].toString()+'人<br>';         
       }
-      $show.append('<p class="totadata" >共'+all_rec.toString()+'人/'+show_sh_num_ary+'</p>'+show_append);
+      $show.append('<p class="totadata" >男:'+male+'人,女:'+female+'人,共'+all_rec.toString()+'人<br>'+show_sh_num_ary+'</p>'+show_append);
       all_data = arr; 
       json_data = datatoJSON(all_data) ;
     });
