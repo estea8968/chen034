@@ -15,9 +15,12 @@ let sh_ary = ['15太','16祖','17志','18存','19武','20達','21國','22朝','2
 let all_rec=0;
 //各世別人數陣列
 let sh_num_ary=[0,0,0,0,0,0,0,0,0,0,0];
-
 let show_people = {};
-
+//google繪組織圖
+//google.charts.load('current', {packages:['wordtree']});
+//google.charts.setOnLoadCallback(drawSimpleNodeChart);
+//var all_people_ary = [];
+//end google
 const url ='https://docs.google.com/spreadsheets/d/1hre_XZDiFvVskOC-_NT8s0gNiTcqpfd1hkOZRHr5Wuo/edit#gid=1817346169';
 const sheet_tag ='族籍';
 //var money_url='google sheet share url';
@@ -35,6 +38,14 @@ let show_all_data_id = document.getElementById('show_all_data');
 show_name_id.style.display = 'none';
 show_all_data_id.style.display = 'block';
 
+//key enter search user name
+let key_enter = document.getElementById('user_name');
+key_enter.addEventListener("keypress",function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      getValueInput();
+    }
+  });
 
 //搜尋json
 function json_search(obj,key,value) {
@@ -69,6 +80,7 @@ async function getValueInput(){
             //console.log(search_result.族籍號);
             //console.log(search_result.族籍號.length) ;
             var search_result0 =search_result[0];    
+            console.log('aaa=',search_result0);
             var a_people = null;
             var i;
             var people_number;
@@ -77,28 +89,36 @@ async function getValueInput(){
             show_data =user_name+'族籍：';
             console.log('id=',search_result0.族籍號)
             //chk_money(y110_ary,search_result0.族籍號);
-            for (i = 1; i <= search_result0.族籍號.length; i++) {    
-                //a_people = await build_show_people(search_result.族籍號,i);
-                people_number = search_result0.族籍號.substr(0,i);
-                a_house =chk_house(people_number);
-                a_people = json_search(json_data,"族籍號",people_number);
-                if(i==search_result0.族籍號.length){
-                    show_class =`class="btn_self"`;
+            ////檢查不是f開頭就 
+            if(search_result0.族籍號.substr(0,1)=='f'){
+                show_data = '<p class="totadata" >來台前:<br><img src="before.png"></p>';
+                //show_data = '<p class="totadata" >來台前<br> 9世⋯⋯⋯⋯⋯⋯陳公/藍氏<br>10世⋯⋯⋯⋯⋯⋯陳公/蔡氏<br>11世振榮、振華、<b>振富/吳氏</b><br>12世⋯⋯⋯⋯⋯⋯文羽/徐氏、文耀<br>13世⋯⋯⋯⋯⋯⋯元基/黃氏<br>14世⋯⋯⋯⋯⋯⋯<b>殿朝/吳氏</b>、殿碧</p>';
+                console.log('來台前');
+            }else{
+                for (i = 1; i <= search_result0.族籍號.length; i++) {    
+                    //a_people = await build_show_people(search_result.族籍號,i);
+                    people_number = search_result0.族籍號.substr(0,i);
+                    a_house =chk_house(people_number);
+                    a_people = json_search(json_data,"族籍號",people_number);
+                    if(i==search_result0.族籍號.length){
+                        show_class =`class="btn_self"`;
+                    }
+                    chk_money(people_number);
+                    show_data = show_data + `<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/<b>${a_people[0].名}</b>/${a_people[0].族籍號}/<font color='red'>${show_money}</font><br>/配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;                
+                    console.log(a_people);
                 }
-                chk_money(people_number);
-                show_data = show_data + `<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/<b>${a_people[0].名}</b>/${a_people[0].族籍號}/<font color='red'>${show_money}</font><br>/配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;                
-                console.log(a_people);
+                search_sun(a_people[0].族籍號);
+                //console.log(sun);
+                if(sun.length>0){
+                    for(var x=0;x<sun.length;x++){
+                        a_house =chk_house(sun[x].族籍號);
+                        chk_money(sun[x].族籍號);
+                        show_data = show_data+`<div class='container'><button class="btn btn-info" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/<b>${sun[x].名}</b>/${sun[x].族籍號}/<font color='red'>${show_money}</font><br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
+                    }
+                }
             }
             //search sun
-            search_sun(a_people[0].族籍號);
-            //console.log(sun);
-            if(sun.length>0){
-                for(var x=0;x<sun.length;x++){
-                    a_house =chk_house(sun[x].族籍號);
-                    chk_money(sun[x].族籍號);
-                    show_data = show_data+`<div class='container'><button class="btn btn-info" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/<b>${sun[x].名}</b>/${sun[x].族籍號}/<font color='red'>${show_money}</font><br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
-                }
-            }
+            
     }else if(search_result.length==0){
         show_data =`<p class="err" > 沒有找到${user_name}資料</p>`;
     }else {
@@ -254,17 +274,29 @@ function get_all_data(){
                     male++;
                 }
             }
+            
             show_append = show_append+ '<td>'+arr[i][x]+'</td>';
         }
-        console.log(sh_num_ary);
+        /*
+        if(arr[i][0]!=null){
+        all_people_ary.push([arr[i][0],arr[i][1],arr[i][4],1,'black']);
+        }*/
+        //all_people_ary.push([arr[i][1],arr[i][4],arr[i][2]]);
+        //console.log(sh_num_ary);
         show_append = show_append+'</tr>';
       }
+      //all_people_ary.shift();
+      //all_people_ary.unshift(['id', 'childLabel', 'parent', 'size', { role: 'style' }]);
+      //console.log('all_people=',all_people_ary);
       show_append = show_append+'</table>';
       var show_sh_num_ary='';
       for (var i=0;i<sh_num_ary.length;i++){
         show_sh_num_ary = show_sh_num_ary+sh_ary[i]+':'+sh_num_ary[i].toString()+'人<br>';         
       }
-      $show.append('<p class="totadata" >男:'+male+'人,女:'+female+'人,共'+all_rec.toString()+'人<br>'+show_sh_num_ary+'</p>'+show_append);
+      var before_text = '<p class="totadata" >男:'+male+'人,女:'+female+'人,共'+all_rec.toString()+'人<br>'+show_sh_num_ary+'</p>';
+      //var before_people ='<p class="totadata" >來台前<br> 9世⋯⋯⋯⋯⋯⋯陳公/藍氏<br>10世⋯⋯⋯⋯⋯⋯陳公/蔡氏<br>11世振榮、振華、<b>振富/吳氏</b><br>12世⋯⋯⋯⋯⋯⋯文羽/徐氏、文耀<br>13世⋯⋯⋯⋯⋯⋯元基/黃氏<br>14世⋯⋯⋯⋯⋯⋯<b>殿朝/吳氏</b>、殿碧</p>';
+      var before_people =show_data = '<p class="totadata" >來台前<br><img src="before.png"></p>';
+      $show.append(before_text+before_people+show_append);
       all_data = arr; 
       json_data = datatoJSON(all_data) ;
     });
@@ -297,22 +329,40 @@ function get_all_data(){
       console.log(y111_ary);
       //json_data = datatoJSON(all_data) ;
     });
- 
 }
 
 function datatoJSON() {
     var result = [];
     var headers = all_data[0];
     for (var i = 1; i < all_data.length; i++) {
-        var obj = {};
-        var currentline = all_data[i];
+       if(all_data[i][0]!=null){
+		var obj = {};
+		var currentline = all_data[i];
 
-        for (var j = 0; j < headers.length; j++) {
-            obj[headers[j]] = currentline[j];
+		for (var j = 0; j < headers.length; j++) {
+		    obj[headers[j]] = currentline[j];
+		}
+		result.push(obj);
         }
-        result.push(obj);
     }
     //return result; //JavaScript object
     console.log(result);
     return JSON.stringify(result); //JSON
 }
+
+//組織圖
+/*
+function drawSimpleNodeChart() {
+        var nodeListData = new google.visualization.arrayToDataTable(all_people_ary);
+        
+        var options = {
+          colors: ['black', 'black', 'black'],
+          wordtree: {
+            format: 'explicit',
+            type: 'suffix'
+          }
+        };
+        var wordtree = new google.visualization.WordTree(document.getElementById('wordtree_explicit'));
+        wordtree.draw(nodeListData, options);
+        
+}*/

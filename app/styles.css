@@ -30,6 +30,10 @@
     font-size: 1.5vw;
     color: red;
 }
+#show_title{
+	font-size: 2vw;
+	color: blue;
+}
 p{
     font-size: 1.5vw
 }
