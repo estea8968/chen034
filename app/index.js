@@ -91,7 +91,7 @@ async function getValueInput(){
             //chk_money(y110_ary,search_result0.族籍號);
             ////檢查不是f開頭就 
             if(search_result0.族籍號.substr(0,1)=='f'){
-                show_data = '<p class="totadata" >來台前:<br><img src="before.png"></p>';
+                show_data = '<p class="totadata" ><a href="./before.html" target="_blank"><img src="before.png" width="800" alt="來台前" loading="lazy"></a></p>';
                 //show_data = '<p class="totadata" >來台前<br> 9世⋯⋯⋯⋯⋯⋯陳公/藍氏<br>10世⋯⋯⋯⋯⋯⋯陳公/蔡氏<br>11世振榮、振華、<b>振富/吳氏</b><br>12世⋯⋯⋯⋯⋯⋯文羽/徐氏、文耀<br>13世⋯⋯⋯⋯⋯⋯元基/黃氏<br>14世⋯⋯⋯⋯⋯⋯<b>殿朝/吳氏</b>、殿碧</p>';
                 console.log('來台前');
             }else{
@@ -295,7 +295,7 @@ function get_all_data(){
       }
       var before_text = '<p class="totadata" >男:'+male+'人,女:'+female+'人,共'+all_rec.toString()+'人<br>'+show_sh_num_ary+'</p>';
       //var before_people ='<p class="totadata" >來台前<br> 9世⋯⋯⋯⋯⋯⋯陳公/藍氏<br>10世⋯⋯⋯⋯⋯⋯陳公/蔡氏<br>11世振榮、振華、<b>振富/吳氏</b><br>12世⋯⋯⋯⋯⋯⋯文羽/徐氏、文耀<br>13世⋯⋯⋯⋯⋯⋯元基/黃氏<br>14世⋯⋯⋯⋯⋯⋯<b>殿朝/吳氏</b>、殿碧</p>';
-      var before_people =show_data = '<p class="totadata" >來台前<br><img src="before.png"></p>';
+      var before_people =show_data = '<p class="totadata" ><a href="./before.html" target="_blank"><img src="before.png" alt="來台前" width="800" loading="lazy"></a></p>';
       $show.append(before_text+before_people+show_append);
       all_data = arr; 
       json_data = datatoJSON(all_data) ;

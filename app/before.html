@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {packages:["orgchart"]});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Name');
+        data.addColumn('string', 'Manager');
+        data.addColumn('string', 'ToolTip');
+
+        // For each orgchart box, provide the name, manager, and tooltip to show.
+        data.addRows([
+          ['9陳公/藍氏', '', '9世'],
+          ['10陳公/蔡氏', '9陳公/藍氏', '10世'],
+          ['11振榮', '10陳公/蔡氏', '11世'],
+          ['11振華', '10陳公/蔡氏', '11世'],
+          ['11振富', '10陳公/蔡氏', '11世'],
+          ['12文羽/徐氏', '11振富', '12世'],
+          ['12文耀', '11振富', '12世'],
+          ['13元基/黃氏', '12文羽/徐氏', '13世'],
+          ['14殿朝/吳氏', '13元基/黃氏', '14世'],
+          ['15太衡/許氏', '14殿朝/吳氏', '15世'],
+          ['15太豐/姜氏', '14殿朝/吳氏', '15世'],
+          ['15太輝/許氏', '14殿朝/吳氏', '15世'],
+          ['15太廷/彭氏', '14殿朝/吳氏', '15世'],
+          ['15太興/劉氏', '14殿朝/吳氏', '15世'],
+          ['14殿碧', '13元基/黃氏', '14世']
+        ]);
+
+        // Create the chart.
+        var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+        // Draw the chart, setting the allowHtml option to true for the tooltips.
+        chart.draw(data, {'allowHtml':true,'allowCollapse':true});
+      }
+  
+
+
+
+/*
+      function drawSimpleNodeChart() {
+        var nodeListData = new google.visualization.arrayToDataTable([
+          ['id', 'childLabel', 'parent', 'size', { role: 'style' }],
+          [0, '9世陳公/藍氏', -1, 1, 'black'],
+          [1, '10世陳公/蔡氏', 0, 1, 'black'],
+          [2, '振榮', 1, 1, 'black'],
+          [3, '振華', 1, 1, 'black'],
+          [4, '11世振富/吳氏', 1, 1, 'black'],
+          [5, '12世文羽/徐氏', 4, 1, 'black'],
+          [6, '文耀', 4, 1, 'black'],
+          [7, '13世元基/黃氏', 5, 1, 'black'],
+          [8, '14世殿朝/吳氏', 7, 1, 'black'],
+          [9, '殿碧', 7, 1, 'black'],
+          ]);
+
+        var options = {
+          maxFontSize: 18,  
+          colors: ['black', 'black', 'black'],
+          wordtree: {
+            format: 'explicit',
+            type: 'suffix'
+          }
+        };
+
+        var wordtree = new google.visualization.WordTree(document.getElementById('wordtree_explicit'));
+        wordtree.draw(nodeListData, options);
+      }*/
+    </script>
+    </head>
+  <body>
+    <p align='center' style="font-size:2vw">陳泰春宗族會來台前族譜</p>
+    <div id="chart_div"></div>
+  </body>
+</html>
