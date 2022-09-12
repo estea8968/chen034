@@ -100,8 +100,20 @@ async function getValueInput(){
                     people_number = search_result0.族籍號.substr(0,i);
                     a_house =chk_house(people_number);
                     a_people = json_search(json_data,"族籍號",people_number);
+                    //console.log('a_people=',a_people[0]);
                     if(i==search_result0.族籍號.length){
-                        show_class =`class="btn_self"`;
+                        if(search_result0.存殁 == 1){
+                            show_class =`class="btn_self"`;
+                        }else{
+                            show_class =`class="btn_die"`;
+                        }
+                    }else{
+                        //console.log('a_people=',a_people);
+                        if(a_people[0].存殁 == 0){
+                            show_class =`class="btn_fa_die"`;
+                        }else{
+                            show_class =`class="btn_fa"`;
+                        }
                     }
                     chk_money(people_number);
                     show_data = show_data + `<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/<b>${a_people[0].名}</b>/${a_people[0].族籍號}/<font color='red'>${show_money}</font><br>/配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;                
@@ -213,7 +225,18 @@ async function search_byid(id){
                 a_house =chk_house(people_number);
                 a_people = json_search(json_data,"族籍號",people_number);
                 if(i == id.length){
-                    show_class =`class="btn_self"`;
+                    console.log(a_people[0].存殁);
+                    if(a_people[0].存殁 == 1){
+                        show_class =`class="btn_self"`;
+                    }else{
+                        show_class =`class="btn_die"`;
+                    }
+                }else{
+                    if(a_people[0].存殁 == 1){
+                        show_class =`class="btn_fa"`;
+                    }else{
+                        show_class =`class="btn_fa_die"`;
+                    }
                 }
                 //chk pay money
                 chk_money(people_number);
@@ -226,7 +249,12 @@ async function search_byid(id){
             if(sun.length>0){
                 for(var x=0;x<sun.length;x++){
                     chk_money(sun[x].族籍號);
-                    show_data = show_data+`<div class='container'><button class="btn btn-info" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/<b>${sun[x].名}</b>/${sun[x].族籍號}/<font color='red'>${show_money}</font><br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
+                    console.log('存殁',sun[x].存殁);
+                    if(sun[x].存殁 == 1){
+                        show_data = show_data+`<div class='container'><button class="btn btn-info" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/<b>${sun[x].名}</b>/${sun[x].族籍號}/<font color='red'>${show_money}</font><br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;
+                    }else{
+                        show_data = show_data+`<div class='container'><button class="btn_sun_die" onclick="search_byid('${sun[x].族籍號}')">${sh_ary[i-1]}/<b>${sun[x].名}</b>/${sun[x].族籍號}/<font color='red'>${show_money}</font><br>配偶:${sun[x].配偶}/父親:${sun[x].父親}</button></div>`;                        
+                    }    
                 }
             }
             document.getElementById("show_name").innerHTML = show_data;
@@ -242,7 +270,7 @@ function get_all_data(){
         row: 1,
         col: 2,
         endRow : endrow,
-        endCol : 6
+        endCol : 8
     };
     $.get('https://script.google.com/macros/s/AKfycbzBZXaA2Gf9-6gW0Whm-zbczf0bs6dIAk0FMyCpi7xItwMVyRRdD3koKRtZmoSeNg_MHQ/exec',a, function(data){
       var d = data.split(',');

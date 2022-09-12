@@ -13,6 +13,16 @@
     
 }
 
+.btn_fa_die{
+    border-radius: 4px;
+    text-align: center;
+    font-size: 1.5vw;
+    color:#A0A0A0;
+    background-color:#ffffff
+    
+}
+
+
 .btn_sun{
     border-radius: 4px;
     text-align: center;
@@ -25,6 +35,19 @@
     font-size: 1.5vw;
     text-align: center;
     background-color:#ee99ff
+}
+
+.btn_die{
+    border-radius: 8px;
+    font-size: 1.5vw;
+    text-align: center;
+    color:#A0A0A0
+}
+
+
+.btn_sun_die{
+    font-size:1vw;
+    color:#A0A0A0;
 }
 .err{
     font-size: 1.5vw;
