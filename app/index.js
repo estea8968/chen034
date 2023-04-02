@@ -26,10 +26,13 @@ const sheet_tag ='族籍';
 //var money_url='google sheet share url';
 const money110_url = atob('aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMUdPNUgtRFQzRjlKQ1VDX0JxaUozZnFNemw5X3VveTQ1RVgtYnljRzlwX2cvZWRpdD91c3A9c2hhcmluZw==');
 const money111_url = atob('aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMS1EQ1B2Q2ZrQ2I0ZkF5d3NjVFZ3QnY5MmNpTkpsSFUySmNDMVhwNklMa0EvZWRpdD91c3A9c2hhcmluZw==');
+const money112_url ='https://docs.google.com/spreadsheets/d/1XlO4_2ywmdfU3nxi_3PFKz0Khj7kUjRuKefbpXUIBZ4/edit?usp=sharing';
+//atob('aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMS1EQ1B2Q2ZrQ2I0ZkF5d3NjVFZ3QnY5MmNpTkpsSFUySmNDMVhwNklMa0EvZWRpdD91c3A9c2hhcmluZw==');
 const money_sheet_tag ='丁錢';
 
 let y110_ary =[];
 let y111_ary =[];
+let y112_ary =[];
 get_all_data();
 let show_name_id = document.getElementById('show_name');
 let show_all_data_id = document.getElementById('show_all_data');
@@ -162,6 +165,13 @@ function chk_money(people_number){
         pos = y111_ary.indexOf(people_number);
         if(pos>-1){
             show_money = show_money+'丁111';
+        }
+    }
+    //y112
+    if(y112_ary.length>0){
+        pos = y112_ary.indexOf(people_number);
+        if(pos>-1){
+            show_money = show_money+'丁112';
         }
     }    
 }
@@ -355,6 +365,21 @@ function get_all_data(){
       y111_ary= data.split(',');
       //y111_ary.shift();
       console.log(y111_ary);
+      //json_data = datatoJSON(all_data) ;
+    });
+    //money112 data
+    var b = {
+        sheetUrl : money112_url,
+        sheetTag : money_sheet_tag,
+        row: 2,
+        col: 2,
+        endRow : endrow,
+        endCol : 2
+    };
+    $.get('https://script.google.com/macros/s/AKfycbzBZXaA2Gf9-6gW0Whm-zbczf0bs6dIAk0FMyCpi7xItwMVyRRdD3koKRtZmoSeNg_MHQ/exec',b, function(data){
+      y112_ary= data.split(',');
+      //y111_ary.shift();
+      console.log('y112_ary',y112_ary);
       //json_data = datatoJSON(all_data) ;
     });
 }
