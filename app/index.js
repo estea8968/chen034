@@ -27,12 +27,14 @@ const sheet_tag ='族籍';
 const money110_url = atob('aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMUdPNUgtRFQzRjlKQ1VDX0JxaUozZnFNemw5X3VveTQ1RVgtYnljRzlwX2cvZWRpdD91c3A9c2hhcmluZw==');
 const money111_url = atob('aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMS1EQ1B2Q2ZrQ2I0ZkF5d3NjVFZ3QnY5MmNpTkpsSFUySmNDMVhwNklMa0EvZWRpdD91c3A9c2hhcmluZw==');
 const money112_url ='https://docs.google.com/spreadsheets/d/1XlO4_2ywmdfU3nxi_3PFKz0Khj7kUjRuKefbpXUIBZ4/edit?usp=sharing';
+const money113_url ='https://docs.google.com/spreadsheets/d/1-A1ZdY8zZAFKCAPgq_C-HRNxwDQb7dscR1m7FovJgVM/edit?usp=sharing';
 //atob('aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMS1EQ1B2Q2ZrQ2I0ZkF5d3NjVFZ3QnY5MmNpTkpsSFUySmNDMVhwNklMa0EvZWRpdD91c3A9c2hhcmluZw==');
 const money_sheet_tag ='丁錢';
 
 let y110_ary =[];
 let y111_ary =[];
 let y112_ary =[];
+let y113_ary = [];
 get_all_data();
 let show_name_id = document.getElementById('show_name');
 let show_all_data_id = document.getElementById('show_all_data');
@@ -173,7 +175,14 @@ function chk_money(people_number){
         if(pos>-1){
             show_money = show_money+'丁112';
         }
-    }    
+    }
+   //y113
+    if(y113_ary.length>0){
+        pos = y113_ary.indexOf(people_number);
+        if(pos>-1){
+            show_money = show_money+'丁113';
+        }
+    }     
 }
 
 
@@ -380,6 +389,22 @@ function get_all_data(){
       y112_ary= data.split(',');
       //y111_ary.shift();
       console.log('y112_ary',y112_ary);
+      //json_data = datatoJSON(all_data) ;
+    });
+    
+    //money113 data
+    var b = {
+        sheetUrl : money113_url,
+        sheetTag : money_sheet_tag,
+        row: 2,
+        col: 2,
+        endRow : endrow,
+        endCol : 2
+    };
+    $.get('https://script.google.com/macros/s/AKfycbzBZXaA2Gf9-6gW0Whm-zbczf0bs6dIAk0FMyCpi7xItwMVyRRdD3koKRtZmoSeNg_MHQ/exec',b, function(data){
+      y113_ary= data.split(',');
+      //y111_ary.shift();
+      console.log('y113_ary',y113_ary);
       //json_data = datatoJSON(all_data) ;
     });
 }
