@@ -73,6 +73,12 @@ function json_search(obj,key,value) {
 //取出輸入值
 async function getValueInput(){
     user_name =document.getElementById('user_name').value
+    //過濾陳字
+    if(user_name.length>2){
+    	if(user_name.substring(0, 1)=='陳'){
+    	   user_name = user_name.substring(1);
+    	}
+    }
     //document.getElementById("show_name").innerHTML = user_name;
     //顯示id
     show_name_id.style.display = 'block';
