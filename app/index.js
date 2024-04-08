@@ -127,7 +127,16 @@ async function getValueInput(){
                         }
                     }
                     chk_money(people_number);
-                    show_data = show_data + `<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/<b>${a_people[0].名}</b>/${a_people[0].族籍號}/<font color='red'>${show_money}</font><br>/配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;                
+                    var show_sex_color1='';
+                    var show_sex_color2='';
+                    if(a_people[0].性別=='女'){
+                    		show_sex_color1='<font color="red">';
+                        	show_sex_color2='</font>';
+                        }else{
+                        	var show_sex_color1='';
+                        	var show_sex_color2='';
+                        }
+                    show_data = show_data + `<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/<b>${show_sex_color1+a_people[0].名+show_sex_color2}</b>/${a_people[0].族籍號}/<font color='red'>${show_money}</font><br>/配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;                
                     console.log(a_people);
                 }
                 search_sun(a_people[0].族籍號);
@@ -275,7 +284,16 @@ async function search_byid(id){
                 }
                 //chk pay money
                 chk_money(people_number);
-                show_data = show_data+`<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/${a_people[0].族籍號}/<b>${a_people[0].名}</b>/<font color='red'>${show_money}</font><br>配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;
+                var show_sex_color1='';
+                var show_sex_color2='';
+                    if(a_people[0].性別=='女'){
+                        	show_sex_color1='<font color="red">';
+                        	show_sex_color2='</font>';
+                        }else{
+                        	show_sex_color1='';
+                        	show_sex_color2='';
+                        }
+                show_data = show_data+`<div class='container'><button ${show_class} onclick="search_byid('${a_people[0].族籍號}')">${a_house}/${sh_ary[i-1]}/${a_people[0].族籍號}/<b>${show_sex_color1+a_people[0].名+show_sex_color2}</b>/<font color='red'>${show_money}</font><br>配偶:${a_people[0].配偶}/父親:${a_people[0].父親}</button></div><p></p>`;
                 console.log(a_people);
             }
             //search sun
