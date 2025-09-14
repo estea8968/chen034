@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員報到系統</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: #6c5ce7;
+        }
+        
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .file-input {
+            padding: 12px;
+            border: 2px dashed #6c5ce7;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-input:hover {
+            background-color: #f0f0ff;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background-color: #5649c9;
+        }
+        
+        .btn-secondary {
+            background-color: #00b894;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #00a885;
+        }
+        
+        .btn-danger {
+            background-color: #d63031;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c62a2a;
+        }
+        
+        .btn-warning {
+            background-color: #f39c12;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+        
+        .camera-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        #camera-container {
+            width: 100%;
+            height: 300px;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        #camera-view {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        #camera-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 2px;
+            background-color: rgba(255, 0, 0, 0.5);
+            animation: scan 2s infinite linear;
+        }
+        
+        @keyframes scan {
+            0% { top: 20%; }
+            50% { top: 80%; }
+            100% { top: 20%; }
+        }
+        
+        .manual-input {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .input-group input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .result-section {
+            text-align: center;
+            padding: 20px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .result-message {
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            display: block;
+        }
+        
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            display: block;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            display: block;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+        
+        .member-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            overflow-x: auto;
+            display: block;
+        }
+        
+        .member-table th, .member-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .member-table th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+        
+        .member-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .member-table tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .status-checked {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .status-unchecked {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .audio-control {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .audio-control label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+        
+        .stats-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .stat-card {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #6c5ce7;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .download-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f4fc;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                min-width: 100%;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .stats-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>會員報到系統</h1>
+            <p class="description">上傳會員CSV檔案，使用條碼掃描或手動輸入進行會員報到</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-file-csv"></i>CSV檔案上傳
+                </h2>
+                <div class="file-upload">
+                    <label for="csv-file" class="file-input">
+                        <span>點擊或拖曳CSV檔案到此區域</span>
+                        <input type="file" id="csv-file" accept=".csv" style="display: none;">
+                    </label>
+                    <button id="upload-btn" class="btn">
+                        <i class="fas fa-upload"></i>上傳檔案
+                    </button>
+                </div>
+                
+                <div id="file-info" style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px; display: none;">
+                    <p>已載入檔案: <span id="file-name">無</span></p>
+                    <p>會員數量: <span id="member-count">0</span></p>
+                </div>
+
+                <div class="stats-section">
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-members">0</div>
+                        <div class="stat-label">總會員數</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="checked-in">0</div>
+                        <div class="stat-label">已報到人數</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="not-checked-in">0</div>
+                        <div class="stat-label">未報到人數</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="checkin-rate">0%</div>
+                        <div class="stat-label">報到率</div>
+                    </div>
+                </div>
+
+                <div class="download-section">
+                    <button id="download-btn" class="btn btn-warning" disabled>
+                        <i class="fas fa-download"></i>下載報到結果
+                    </button>
+                    <p style="margin-top: 10px; font-size: 0.9rem;">下載包含最新報到狀態的CSV檔案</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-camera"></i>條碼掃描
+                </h2>
+                <div class="camera-section">
+                    <div id="camera-container">
+                        <video id="camera-view" autoplay playsinline></video>
+                        <div id="camera-overlay"></div>
+                    </div>
+                    <button id="start-camera" class="btn">
+                        <i class="fas fa-play"></i>啟動相機
+                    </button>
+                    <button id="stop-camera" class="btn btn-danger" disabled>
+                        <i class="fas fa-stop"></i>停止相機
+                    </button>
+                    
+                    <div class="manual-input">
+                        <h3><i class="fas fa-keyboard"></i>手動輸入報到</h3>
+                        <div class="input-group">
+                            <input type="text" id="manual-id" placeholder="請輸入會員ID">
+                            <button id="check-manual" class="btn btn-secondary">
+                                <i class="fas fa-check-circle"></i>確認報到
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="audio-control">
+                        <label>
+                            <input type="checkbox" id="voice-enabled" checked>
+                            <i class="fas fa-volume-up"></i>啟用語音報讀
+                        </label>
+                        <select id="voice-speed">
+                            <option value="0.8">慢速</option>
+                            <option value="1" selected>正常</option>
+                            <option value="1.2">快速</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-clipboard-list"></i>報到結果
+            </h2>
+            <div class="result-section">
+                <p>掃描結果將顯示在這裡</p>
+                <div id="result-message" class="result-message"></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-users"></i>會員列表
+            </h2>
+            <div id="member-list">
+                <p>請先上傳CSV檔案以顯示會員列表</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 會員報到系統 | 設計為響應式網頁，適合各種裝置使用</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 會員資料陣列
+            let members = [];
+            let stream = null;
+            
+            // 檔案上傳相關元素
+            const csvFileInput = document.getElementById('csv-file');
+            const uploadBtn = document.getElementById('upload-btn');
+            const fileInfo = document.getElementById('file-info');
+            const fileName = document.getElementById('file-name');
+            const memberCount = document.getElementById('member-count');
+            const memberList = document.getElementById('member-list');
+            
+            // 相機相關元素
+            const startCameraBtn = document.getElementById('start-camera');
+            const stopCameraBtn = document.getElementById('stop-camera');
+            const cameraView = document.getElementById('camera-view');
+            const resultMessage = document.getElementById('result-message');
+            
+            // 手動輸入相關元素
+            const manualIdInput = document.getElementById('manual-id');
+            const checkManualBtn = document.getElementById('check-manual');
+            
+            // 統計相關元素
+            const totalMembersEl = document.getElementById('total-members');
+            const checkedInEl = document.getElementById('checked-in');
+            const notCheckedInEl = document.getElementById('not-checked-in');
+            const checkinRateEl = document.getElementById('checkin-rate');
+            
+            // 下載按鈕
+            const downloadBtn = document.getElementById('download-btn');
+            
+            // 語音相關元素
+            const voiceEnabled = document.getElementById('voice-enabled');
+            const voiceSpeed = document.getElementById('voice-speed');
+            let speechSynthesis = window.speechSynthesis;
+            
+            // 獲取當前時間字串 (時:分:秒)
+            function getCurrentTimeString() {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                return `${hours}:${minutes}:${seconds}`;
+            }
+            
+            // 上傳CSV檔案
+            uploadBtn.addEventListener('click', function() {
+                if (csvFileInput.files.length === 0) {
+                    alert('請先選擇CSV檔案');
+                    return;
+                }
+                
+                const file = csvFileInput.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const content = e.target.result;
+                    processCSV(content);
+                };
+                
+                reader.readAsText(file);
+            });
+            
+            // 處理CSV內容
+            function processCSV(content) {
+                const lines = content.split('\n');
+                members = [];
+                
+                // 跳過標題行，從第二行開始（索引1）
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (line) {
+                        const parts = line.split(',');
+                        const id = parts[0].trim();
+                        const name = parts[1].trim();
+                        // 檢查是否有報到狀態（第三欄）
+                        const ischeck = parts.length > 2 ? parseInt(parts[2].trim()) : 0;
+                        
+                        // 如果原本有報到狀態，保留時間為空（等待實際報到時記錄）
+                        const checkTime = ischeck === 1 ? getCurrentTimeString() : "";
+                        
+                        members.push({
+                            id: id,
+                            name: name,
+                            ischeck: ischeck,
+                            checkTime: checkTime
+                        });
+                    }
+                }
+                
+                // 顯示檔案資訊
+                fileName.textContent = csvFileInput.files[0].name;
+                memberCount.textContent = members.length;
+                fileInfo.style.display = 'block';
+                
+                // 啟用下載按鈕
+                downloadBtn.disabled = false;
+                
+                // 更新統計數據
+                updateStats();
+                
+                // 顯示會員列表
+                displayMembers();
+            }
+            
+            // 顯示會員列表
+            function displayMembers() {
+                if (members.length === 0) {
+                    memberList.innerHTML = '<p>沒有會員資料</p>';
+                    return;
+                }
+                
+                let tableHTML = `
+                    <table class="member-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>姓名</th>
+                                <th>報到狀態</th>
+                                <th>報到時間</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                members.forEach(member => {
+                    const hasCheckedIn = member.ischeck === 1;
+                    tableHTML += `
+                        <tr>
+                            <td>${member.id}</td>
+                            <td>${member.name}</td>
+                            <td class="${hasCheckedIn ? 'status-checked' : 'status-unchecked'}">
+                                ${hasCheckedIn ? '已報到' : '未報到'}
+                            </td>
+                            <td>${hasCheckedIn ? member.checkTime : '-'}</td>
+                        </tr>
+                    `;
+                });
+                
+                tableHTML += `
+                        </tbody>
+                    </table>
+                `;
+                
+                memberList.innerHTML = tableHTML;
+            }
+            
+            // 更新統計數據
+            function updateStats() {
+                const total = members.length;
+                const checkedIn = members.filter(m => m.ischeck === 1).length;
+                const notCheckedIn = total - checkedIn;
+                const rate = total > 0 ? Math.round((checkedIn / total) * 100) : 0;
+                
+                totalMembersEl.textContent = total;
+                checkedInEl.textContent = checkedIn;
+                notCheckedInEl.textContent = notCheckedIn;
+                checkinRateEl.textContent = `${rate}%`;
+            }
+            
+            // 生成CSV內容
+            function generateCSV() {
+                let csvContent = "id,name,ischeck,check_time\n";
+                
+                members.forEach(member => {
+                    csvContent += `${member.id},${member.name},${member.ischeck},${member.checkTime}\n`;
+                });
+                
+                return csvContent;
+            }
+            
+            // 下載CSV檔案
+            downloadBtn.addEventListener('click', function() {
+                const csvContent = generateCSV();
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                
+                const link = document.createElement("a");
+                const date = new Date().toISOString().slice(0, 10);
+                link.setAttribute("href", url);
+                link.setAttribute("download", `報到結果_${date}.csv`);
+                link.style.visibility = 'hidden';
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+            
+            // 啟動相機
+            startCameraBtn.addEventListener('click', function() {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                        .then(function(mediaStream) {
+                            stream = mediaStream;
+                            cameraView.srcObject = mediaStream;
+                            startCameraBtn.disabled = true;
+                            stopCameraBtn.disabled = false;
+                            
+                            // 模擬條碼掃描（實際應用中應使用條碼掃描庫）
+                            simulateBarcodeScanning();
+                        })
+                        .catch(function(error) {
+                            console.error('無法訪問相機: ', error);
+                            alert('無法訪問相機，請確保您已授予相機權限');
+                        });
+                } else {
+                    alert('您的瀏覽器不支援相機功能');
+                }
+            });
+            
+            // 停止相機
+            stopCameraBtn.addEventListener('click', function() {
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    cameraView.srcObject = null;
+                    startCameraBtn.disabled = false;
+                    stopCameraBtn.disabled = true;
+                }
+            });
+            
+            // 模擬條碼掃描（實際應用中應使用條碼掃描庫如 QuaggaJS或jsQR）
+            function simulateBarcodeScanning() {
+                // 這裡只是模擬，實際應用中應該使用條碼掃描庫
+                cameraView.addEventListener('click', function() {
+                    // 隨機選擇一個會員或非會員ID進行模擬
+                    const randomNum = Math.random();
+                    
+                    if (randomNum < 0.7) {
+                        // 70%機率選擇現有會員
+                        const randomMember = members[Math.floor(Math.random() * members.length)];
+                        checkMember(randomMember.id);
+                    } else {
+                        // 30%機率使用隨機ID（非會員）
+                        const randomId = 'ID' + Math.floor(Math.random() * 1000);
+                        checkMember(randomId);
+                    }
+                });
+            }
+            
+            // 手動輸入檢查
+            checkManualBtn.addEventListener('click', function() {
+                const id = manualIdInput.value.trim();
+                if (!id) {
+                    alert('請輸入會員ID');
+                    return;
+                }
+                
+                checkMember(id);
+                manualIdInput.value = ''; // 清空輸入框
+            });
+            
+            // 按Enter鍵也可以觸發檢查
+            manualIdInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkManualBtn.click();
+                }
+            });
+            
+            // 檢查會員ID
+            function checkMember(id) {
+                const member = members.find(m => m.id === id);
+                
+                if (!member) {
+                    showResult('不是會員，請申請入會', 'error');
+                    speakMessage('不是會員，請申請入會');
+                    return;
+                }
+                
+                if (member.ischeck === 1) {
+                    showResult(`${member.id} 號，${member.name} 已於 ${member.checkTime} 報到過`, 'info');
+                    speakMessage(`${member.id} 號，${member.name} 已報到過`);
+                } else {
+                    // 更新報到狀態和時間
+                    member.ischeck = 1;
+                    member.checkTime = getCurrentTimeString();
+                    
+                    showResult(`${member.id} 號，${member.name} 報到成功 (${member.checkTime})`, 'success');
+                    speakMessage(`${member.id} 號，${member.name} 報到成功`);
+                    
+                    // 更新會員列表顯示
+                    displayMembers();
+                    // 更新統計數據
+                    updateStats();
+                }
+            }
+            
+            // 語音報讀功能
+            function speakMessage(message) {
+                if (!voiceEnabled.checked || !speechSynthesis) return;
+                
+                // 停止任何正在進行的語音
+                speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(message);
+                
+                // 設置語速
+                utterance.rate = parseFloat(voiceSpeed.value);
+                
+                // 設置語言為中文
+                utterance.lang = 'zh-TW';
+                
+                // 播放語音
+                speechSynthesis.speak(utterance);
+            }
+            
+            // 顯示結果訊息
+            function showResult(message, type) {
+                resultMessage.textContent = message;
+                resultMessage.className = 'result-message';
+                
+                switch(type) {
+                    case 'success':
+                        resultMessage.classList.add('success');
+                        break;
+                    case 'info':
+                        resultMessage.classList.add('info');
+                        break;
+                    case 'warning':
+                        resultMessage.classList.add('warning');
+                        break;
+                    case 'error':
+                        resultMessage.classList.add('error');
+                        break;
+                }
+                
+                // 3秒後自動清除結果
+                setTimeout(() => {
+                    resultMessage.textContent = '';
+                    resultMessage.className = 'result-message';
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
