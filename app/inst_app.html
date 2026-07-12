@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的網頁 App</title>
+    <!-- 引入 PWA 設定檔 -->
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body { font-family: sans-serif; text-align: center; padding-top: 50px; }
+        #install-btn {
+            display: none; /* 預設隱藏，用 JS 判斷觸發 */
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        #ios-instruction {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f1f1f1;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>將中華民國陳泰春宗族會網站加到手機app</h1>
+    <p>隨時隨地開啟，體驗如同原生 App！</p>
+    
+    <!-- 安裝鈕 -->
+    <button id="install-btn">安裝此 App</button>
+
+    <!-- iOS 專用提示區塊 -->
+    <div id="ios-instruction">
+        請點擊下方 Safari 的 <b>分享按鈕</b>（<img src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='20' height='20' fill='%23007bff' class='bi bi-box-arrow-up' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z'/><path fill-rule='evenodd' d='M7.646.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 1.707V10.5a.5.5 0 0 1-1 0V1.707L5.354 3.854a.5.5 0 1 1-.708-.708l3-3z'/></svg>" style="vertical-align: middle;">），<br>
+        並選擇<b>「加入主畫面」</b>。
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
