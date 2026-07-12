@@ -1,7 +1,7 @@
 {
   "name": "陳泰春宗族會 App",
   "short_name": "chen034_App",
-  "start_url": "../",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#007bff",
