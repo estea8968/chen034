@@ -30,8 +30,6 @@
 <body>
 
     <h1>將中華民國陳泰春宗族會網站加到手機app</h1>
-    <p>隨時隨地開啟，體驗如同原生 App！</p>
-    
     <!-- 安裝鈕 -->
     <button id="install-btn">安裝此 App</button>
 
@@ -42,6 +40,17 @@
     </div>
 
     <script src="app.js"></script>
+    <!--<script>
+    
+    if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('Service Worker 註冊成功', reg))
+            .catch(err => console.log('Service Worker 註冊失敗', err));
+    });
+  }
+
+    </script>-->
 </body>
 </html>
 
